@@ -16,7 +16,7 @@
                            dct:contributor "2018-05-17"^^xsd:date ;
                            dct:creator "Edward Dinu" ,
                                        "Raed Ben Younes" ;
-                           dct:modified "2020-01-9"@de ;
+                           dct:modified "2020-02-06"@de ;
                            dct:title "ALKIS Ontologie"@de ,
                                      "ALKIS Ontology"@en ;
                            vann:preferredNamespacePrefix "alkis" ;
@@ -114,122 +114,182 @@ ngeo:posList rdf:type owl:ObjectProperty ;
 ###  https://w3id.org/alkis/anteil
 alkis:anteil rdf:type owl:ObjectProperty ;
              rdfs:domain alkis:AX_Buchungsstelle ;
-             rdfs:range alkis:AX_Anteil .
+             rdfs:range alkis:AX_Anteil ;
+             rdfs:comment """'Anteil' ist die Angabe des Miteigentumsanteils am Grundstück oder des Anteils am Recht.
+
+Das Attribut setzt sich zusammen aus:
+
+1. Spalte: Zähler
+
+2. Spalte: Nenner"""@de .
 
 
 ###  https://w3id.org/alkis/beziehtSichAuf
 alkis:beziehtSichAuf rdf:type owl:ObjectProperty ;
                      rdfs:domain alkis:AX_Vertretung ;
-                     rdfs:range alkis:AX_Flurstueck .
+                     rdfs:range alkis:AX_Flurstueck ;
+                     rdfs:comment """Eine 'Lagebezeichnung mit Hausnummer' bezieht sich auf ein 'Gebäude'.
+
+Es handelt sich um die inverse Relationsrichtung."""@de .
 
 
 ###  https://w3id.org/alkis/beziehtSichAufFlurstueck
-alkis:beziehtSichAufFlurstueck rdf:type owl:ObjectProperty ,
-                                        owl:ReflexiveProperty ;
-                               rdfs:domain alkis:AX_Flurstueck .
+alkis:beziehtSichAufFlurstueck rdf:type owl:ObjectProperty ;
+                               owl:inverseOf alkis:gehoertAnteiligZu ;
+                               rdf:type owl:ReflexiveProperty ;
+                               rdfs:domain alkis:AX_Flurstueck ;
+                               rdfs:range alkis:AX_Flurstueck ;
+                               rdfs:comment "Invers von gehoertAnteiligZu"@de .
 
 
 ###  https://w3id.org/alkis/buchungsart
 alkis:buchungsart rdf:type owl:ObjectProperty ;
                   rdfs:domain alkis:AX_Buchungsstelle ;
-                  rdfs:range alkis:AX_Buchungsart_Buchungsstelle .
+                  rdfs:range alkis:AX_Buchungsart_Buchungsstelle ;
+                  rdfs:comment "'Buchungsart' bezeichnet die Art der Buchung als langschriftlichen Text.."@de .
 
 
 ###  https://w3id.org/alkis/fachdatenobjekt
 alkis:fachdatenobjekt rdf:type owl:ObjectProperty ;
                       rdfs:domain alkis:AA_Fachdatenverbindung ;
-                      rdfs:range alkis:AA_Fachdatenobjekt .
+                      rdfs:range alkis:AA_Fachdatenobjekt ;
+                      rdfs:comment "Zeigt auf ein Fachdatenobjekt."@de .
 
 
 ###  https://w3id.org/alkis/flaecheDesAbschnitts
 alkis:flaecheDesAbschnitts rdf:type owl:ObjectProperty ;
                            rdfs:domain alkis:AX_SonstigeEigenschaften_Flurstueck ;
-                           rdfs:range alkis:Area .
+                           rdfs:range alkis:Area ;
+                           rdfs:comment "Fläche des Abschnitts/Flurstück in Quadratmeter [m2]."@de .
 
 
 ###  https://w3id.org/alkis/flurstuecksnummer
 alkis:flurstuecksnummer rdf:type owl:ObjectProperty ;
                         rdfs:domain alkis:AX_Flurstueck_Kerndaten ;
-                        rdfs:range alkis:AX_Flurstuecksnummer .
+                        rdfs:range alkis:AX_Flurstuecksnummer ;
+                        rdfs:comment """'Flurstücksnummer' ist die Bezeichnung (Zähler/Nenner), mit der ein Flurstück innerhalb einer Flur (Flurnummer muss im Land vorhanden sein) oder Gemarkung identifiziert werden kann.
+
+Das Attribut setzt sich zusammen aus:
+
+1. Spalte: Zähler
+
+2. Spalte: Nenner
+
+Die 2. Spalte ist optional."""@de .
 
 
 ###  https://w3id.org/alkis/gehoertAnteiligZu
 alkis:gehoertAnteiligZu rdf:type owl:ObjectProperty ,
                                  owl:ReflexiveProperty ;
                         rdfs:domain alkis:AX_Flurstueck ;
-                        rdfs:range alkis:AX_Flurstueck .
+                        rdfs:range alkis:AX_Flurstueck ;
+                        rdfs:comment """'Flurstück' gehört anteilig zu 'Flurstück'.
+
+Die Relationsart kommt nur vor bei Flurstücken, die eine Relation zu einer Buchungsstelle mit einer der Buchungsarten 'Anliegerweg', 'Anliegergraben' oder 'Anliegerwasserlauf, Anliegergewässer' aufweisen."""@de .
 
 
 ###  https://w3id.org/alkis/gehoertZu
 alkis:gehoertZu rdf:type owl:ObjectProperty ;
+                owl:inverseOf alkis:weistAuf ,
+                              alkis:zeigtAuf ;
                 rdfs:domain alkis:AX_LagebezeichnungMitHausnummer ,
                             alkis:AX_LagebezeichnungOhneHausnummer ;
-                rdfs:range alkis:AX_Flurstueck .
+                rdfs:range alkis:AX_Flurstueck ;
+                rdfs:comment """Eine 'Lagebezeichnung ohne Hausnummer' gehört zu einem oder mehreren 'Flurstücken'.
+
+Es handelt sich um die inverse Relationsrichtung."""@de .
 
 
 ###  https://w3id.org/alkis/gemarkung
 alkis:gemarkung rdf:type owl:ObjectProperty ;
                 rdfs:domain alkis:AX_Flurstueck_Kerndaten ;
-                rdfs:range alkis:AX_Gemarkung_Schluessel .
+                rdfs:range alkis:AX_Gemarkung_Schluessel ;
+                rdfs:comment "'Gemarkung' enthält die Eigenschaften aus dem Datentyp 'AX_Gemarkung_Schluessel': 'land' und 'gemarkungsnummer'."@de .
 
 
 ###  https://w3id.org/alkis/gemeindezugehoerigkeit
 alkis:gemeindezugehoerigkeit rdf:type owl:ObjectProperty ;
                              rdfs:domain alkis:AX_Flurstueck_Kerndaten ;
-                             rdfs:range alkis:AX_Gemeindekennzeichen .
+                             rdfs:range alkis:AX_Gemeindekennzeichen ;
+                             rdfs:comment "'Gemeindezugehörigkeit' enthält das Gemeindekennzeichen zur Zuordnung der Flurstücksdaten zu einer Gemeinde."@de .
 
 
 ###  https://w3id.org/alkis/grundstueckBestehtAus
 alkis:grundstueckBestehtAus rdf:type owl:ObjectProperty ;
+                            owl:inverseOf alkis:istGebucht ;
                             rdfs:domain alkis:AX_Buchungsstelle ;
-                            rdfs:range alkis:AX_Flurstueck .
+                            rdfs:range alkis:AX_Flurstueck ;
+                            rdfs:comment """Diese Relationsart legt fest, welche Flurstücke ein Grundstück bilden. Nur bei der 'Buchungsart' mit den Wertearten 1100, 1101, 1102 und 5101 muss die Relationsart vorhanden sein, sofern nicht ein Objekt AX_HistorischesFlurstueckOhneRaumbezug über die Relationsart 'istGebucht' auf die Buchungsstelle verweist.
 
-
-###  https://w3id.org/alkis/hasDirectPosition
-alkis:hasDirectPosition rdf:type owl:ObjectProperty ;
-                        rdfs:domain alkis:GM_Point ;
-                        rdfs:range alkis:DirectPosition .
+Es handelt sich um die inverse Relationsrichtung zu \"istGebucht\"."""@de .
 
 
 ###  https://w3id.org/alkis/istGebucht
 alkis:istGebucht rdf:type owl:ObjectProperty ;
                  rdfs:domain alkis:AX_Flurstueck ;
-                 rdfs:range alkis:AX_Buchungsstelle .
+                 rdfs:range alkis:AX_Buchungsstelle ;
+                 rdfs:comment "Ein (oder mehrere) Flurstück(e) ist (sind) unter genau einer Buchungsstelle gebucht. Bei Anteilsbuchungen ist dies nur dann möglich, wenn ein fiktives Buchungsblatt angelegt wird. Wird ein fiktives Buchungsblatt verwendet, ist die Kardinalität dieser Attributart 1..1."@de .
 
 
 ###  https://w3id.org/alkis/lebenszeitintervall
 alkis:lebenszeitintervall rdf:type owl:ObjectProperty ;
                           rdfs:domain alkis:AX_Flurstueck ;
-                          rdfs:range alkis:AA_Lebenszeitintervall .
+                          rdfs:range alkis:AA_Lebenszeitintervall ;
+                          rdfs:comment "'Lebenszeitintervall Flurstück' enthält das Lebenszeitintervalls des Flurstücks."@de .
 
 
 ###  https://w3id.org/alkis/modellart
 alkis:modellart rdf:type owl:ObjectProperty ;
                 rdfs:domain alkis:AX_Flurstueck ;
-                rdfs:range alkis:AA_Modellart .
+                rdfs:range alkis:AA_Modellart ;
+                rdfs:comment "Modellart aus dem ALKIS-Objektkartenkatalog."@de .
 
 
 ###  https://w3id.org/alkis/objektkoordinaten
 alkis:objektkoordinaten rdf:type owl:ObjectProperty ;
-                        rdfs:domain alkis:AX_Flurstueck_Kerndaten .
+                        rdfs:domain alkis:AX_Flurstueck_Kerndaten ;
+                        rdfs:comment """'Objektkoordinaten' sind die Koordinaten [mm] eines das Objekt 'Flurstück' repräsentierenden Punktes in einem amtlichen Lagebezugssystem.
+
+Die 'Objektkoordinaten' sind übergangsweise aus bestehenden Verfahrenslösungen übernommen (Datenmigration)."""@de .
 
 
 ###  https://w3id.org/alkis/position
 alkis:position rdf:type owl:ObjectProperty ;
                rdfs:domain alkis:AX_Flurstueck_Kerndaten ;
-               rdfs:range ngeo:MultiPolygon .
+               rdfs:range ngeo:MultiPolygon ;
+               rdfs:comment "Gibt das Gebiet eines Flurstuecks an."@de .
 
 
 ###  https://w3id.org/alkis/sonstigeEigenschaften
 alkis:sonstigeEigenschaften rdf:type owl:ObjectProperty ;
                             rdfs:domain alkis:AX_Flurstueck_Kerndaten ;
-                            rdfs:range alkis:AX_SonstigeEigenschaften_Flurstueck .
+                            rdfs:range alkis:AX_SonstigeEigenschaften_Flurstueck ;
+                            rdfs:comment """'Sonstige Eigenschaften' sind flurstücksbezogene Informationen, die in dem Datentyp AX_SonstigeEigenschaften enthalten sind. Die Attributart setzt sich zusammen aus:
+
+1. Kennung, Schlüssel gemäß Festlegung im ALB
+
+2. Fläche des Abschnitts [qm]
+
+3. Angaben zum Abschnitt/Flurstück (unstrukturiert)
+
+4. Angaben zum Abschnitt - Stelle
+
+5. Angaben zum Abschnitt - Nummer, Aktenzeichen
+
+6. Angaben zum Abschnitt - Bemerkung,
+
+Die Angaben zum Abschnitt/Flurstück sind unstrukturiert (3. Stelle) oder
+
+strukturiert (4. - 6. Stelle).
+
+Die Attributart kommt vor wenn sie übergangsweise im Rahmen der Migration aus bestehenden Verfahrenslösungen benötigt wird oder wenn die Angaben nicht als eigenständige raumbezogene Elementarobjekte aus dem Objektbereich 'Gesetzliche Festlegungen, Zuständigkeiten und Gebietseinheiten' geführt werden."""@de .
 
 
 ###  https://w3id.org/alkis/ueberschriftFortfuehrungsnachweis
 alkis:ueberschriftFortfuehrungsnachweis rdf:type owl:ObjectProperty ;
                                         rdfs:domain alkis:AX_Fortfuehrungsfall ;
-                                        rdfs:range alkis:AA_Anlassart .
+                                        rdfs:range alkis:AA_Anlassart ;
+                                        rdfs:comment "'Überschrift im Fortführungsnachweis' gibt für den Fortführungsnachweis und die Mitteilungsverfahren den Grund der unter einem Fortführungsfall beschriebenen Veränderung bzw. Fortführung gemäß dem Katalog der Fortführungsanlässe an."@de .
 
 
 ###  https://w3id.org/alkis/verweistAuf
@@ -237,31 +297,37 @@ alkis:verweistAuf rdf:type owl:ObjectProperty ;
                   rdfs:domain alkis:AX_Buchungsstelle ,
                               alkis:AX_Fortfuehrungsfall ;
                   rdfs:range alkis:AX_FGraphik ,
-                             alkis:AX_Flurstueck .
+                             alkis:AX_Flurstueck ;
+                  rdfs:comment "'Verweist auf' verweist auf einen Datentyp 'F-Graphik', der eine URI zu einer Karte enthält, die die Veränderung darstellt (Gegenüberstellung alt-neu)."@de .
 
 
 ###  https://w3id.org/alkis/weistAuf
 alkis:weistAuf rdf:type owl:ObjectProperty ;
                rdfs:domain alkis:AX_Flurstueck ;
-               rdfs:range alkis:AX_LagebezeichnungMitHausnummer .
+               rdfs:range alkis:AX_LagebezeichnungMitHausnummer ;
+               rdfs:comment "'Flurstück' weist auf 'Lagebezeichnung mit Hausnummer'."@de .
 
 
 ###  https://w3id.org/alkis/zeigtAuf
 alkis:zeigtAuf rdf:type owl:ObjectProperty ;
                rdfs:domain alkis:AX_Flurstueck ;
-               rdfs:range alkis:AX_LagebezeichnungOhneHausnummer .
+               rdfs:range alkis:AX_LagebezeichnungOhneHausnummer ;
+               rdfs:comment "'Flurstück' zeigt auf 'Lagebezeichnung ohne Hausnummer'."@de .
 
 
 ###  https://w3id.org/alkis/zeigtAufExternes
 alkis:zeigtAufExternes rdf:type owl:ObjectProperty ;
                        rdfs:domain alkis:AX_Flurstueck ;
-                       rdfs:range alkis:AA_Fachdatenverbindung .
+                       rdfs:range alkis:AA_Fachdatenverbindung ;
+                       rdfs:comment """Jedes AA-Objekt kann über die Fachdatenverbindung auf externe Objekte (Fachdatenobjekte) zeigen. Wenn Einschränkungen oder spezielle Festlegungen zum Aufbau und zur Pflege dieser Fachdatenverbindung erfolgen sollen, sind diese im Objektartenkatalog für jede Objektart zu beschrieben. Dabei ist darauf zu achten, dass der Identifikator des Fachdatenobjekts bezogen auf die ALKIS- ATKIS-AFIS-Bestandsdaten eindeutig ist.
+Da auch mehrere Fachdatenverbindungen möglich sind, ist dieses Attribut als \"set\" formuliert."""@de .
 
 
 ###  https://w3id.org/alkis/zustaendigeStelle
 alkis:zustaendigeStelle rdf:type owl:ObjectProperty ;
                         rdfs:domain alkis:AX_Flurstueck ;
-                        rdfs:range alkis:AX_Dienststelle_Schluessel .
+                        rdfs:range alkis:AX_Dienststelle_Schluessel ;
+                        rdfs:comment "'Flurstück' wird verwaltet von 'Dienststelle'. Diese Attributart wird nur dann belegt, wenn eine fachliche Zuständigkeit über eine Gemarkung bzw. Gemarkungsteil/Flur nicht abgebildet werden kann. Die Attributart enthält den Dienststellenschlüssel der Stelle, die fachlich für ein Flurstück zustandig ist."@de .
 
 
 #################################################################
@@ -417,7 +483,6 @@ alkis:crs rdf:type owl:DatatypeProperty ;
 
 ###  https://w3id.org/alkis/dimension
 alkis:dimension rdf:type owl:DatatypeProperty ;
-                rdfs:domain alkis:DirectPosition ;
                 rdfs:range xsd:int .
 
 
@@ -712,6 +777,7 @@ alkis:AA_Fachdatenobjekt rdf:type owl:Class ;
                                            owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                            owl:onDataRange xsd:string
                                          ] ;
+                         rdfs:comment "Der in einem externen Fachdateninformationssystem definierte Identifikator eines Fachdatenobjekts wird als CharacterString oder URI in ALKIS-ATKIS-AFIS geführt."@de ;
                          rdfs:label "AA_Fachdatenobjekt"@de .
 
 
@@ -727,6 +793,7 @@ alkis:AA_Fachdatenverbindung rdf:type owl:Class ;
                                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                owl:onDataRange xsd:string
                                              ] ;
+                             rdfs:comment "Sollen Objekte einer Objektart auf Fachdaten zeigen, die in einem externen Fachinformationssystem geführt werden, so kann das optional durch das Attribut \"zeigtAufExternes\" beschrieben werden. Einzelheiten zum Aufbau und zur Pflege dieses Attributes werden im Objektartenkatalog für die entsprechenden Objektarten erläutert."@de ;
                              rdfs:label "AA_Fachdatenverbindung"@de .
 
 
@@ -737,6 +804,7 @@ alkis:AA_Lebenszeitintervall rdf:type owl:Class ;
                                                owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                owl:onDataRange xsd:dateTime
                                              ] ;
+                             rdfs:comment "Das Lebenszeitintervall wird (gemäß der Definitionen der Lebenszeitintervallbeschreibung für jede Objektart des OK) als Anfang und Ende der Lebenszeit festgelegt. Ziel ist es, bei Bedarf aus fachlicher Sicht Angaben über die Lebenszeit von Objekten abzulegen und ein Mittel zur Unterscheidung von Objektversionen zur Verfügung zu stellen. Die Angaben zum Lebenszeitintervall stehen in engem Zusammenhang mit den Bildungsregeln einer Objektart und den Regeln zur Objektversionierung."@de ;
                              rdfs:label "Lebenszeitintervall"@de .
 
 
@@ -752,6 +820,8 @@ alkis:AA_Modellart rdf:type owl:Class ;
                                      owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                      owl:onDataRange xsd:string
                                    ] ;
+                   rdfs:comment """Die \"Union\" AA_Modellart klammert die möglichen Arten von Modellartenkennungen und unterscheidet nach Standardprodukten der AdV und sonstigen Produkten. Unter die sonstigen Produkte falllen auch die länderspezifisch nur in einigen Bundesländern geführten Produkte.
+Es handelt sich um einen Auswahldatentyp (\"Union\"), d.h. das Objekt ist genau vom Typ eines der Attribute."""@de ;
                    rdfs:label "Modellart"@de .
 
 
@@ -875,7 +945,6 @@ alkis:AX_Flurstueck_Kerndaten rdf:type owl:Class ;
                                                 owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
                                                 owl:onDataRange xsd:boolean
                                               ] ;
-                              owl:disjointWith alkis:TA_MultiSurfaceComponent ;
                               rdfs:comment "Enthält Eigenschaften des Flurstücks, die auch für andere Flurstücksobjektkarten gelten."@de ;
                               rdfs:label "Flurstückskerndaten"@de .
 
@@ -1040,12 +1109,8 @@ alkis:AX_Vertretung rdf:type owl:Class ;
 
 ###  https://w3id.org/alkis/Area
 alkis:Area rdf:type owl:Class ;
+           rdfs:comment "Gibt eine Fläche in m^2 an."@de ;
            rdfs:label "Area"@en .
-
-
-###  https://w3id.org/alkis/DirectPosition
-alkis:DirectPosition rdf:type owl:Class ;
-                     rdfs:label "DirectPosition"@en .
 
 
 ###  https://w3id.org/alkis/GM_Point
